@@ -1,9 +1,11 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:spotifyflutterclone/core/configs/themes/app_theme.dart';
+import 'package:spotifyflutterclone/firebase_options.dart';
 import 'package:spotifyflutterclone/src/presentation/choose_mode/cubits/choose_theme_mode_cubit.dart';
 import 'package:spotifyflutterclone/src/presentation/splash/pages/splash_page.dart';
 
@@ -14,6 +16,8 @@ void main() async {
         ? HydratedStorage.webStorageDirectory
         : await getApplicationDocumentsDirectory(),
   );
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   runApp(const MyApp());
 }
