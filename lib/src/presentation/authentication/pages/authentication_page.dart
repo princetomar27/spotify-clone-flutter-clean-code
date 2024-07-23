@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:spotifyflutterclone/common/helpers/is_dark_theme_helper.dart';
+import 'package:spotifyflutterclone/common/helpers/navigation_helpers.dart';
 import 'package:spotifyflutterclone/common/widgets/app_bar/main_app_bar_widget.dart';
 import 'package:spotifyflutterclone/common/widgets/main_app_button_widget.dart';
 import 'package:spotifyflutterclone/core/assets/app_images.dart';
 import 'package:spotifyflutterclone/core/assets/app_vectors.dart';
+import 'package:spotifyflutterclone/src/presentation/authentication/pages/auth_sign_up_user_page.dart';
 import 'package:svg_flutter/svg.dart';
 
 class AuthenticationPage extends StatelessWidget {
@@ -77,7 +79,9 @@ class AuthenticationPage extends StatelessWidget {
                       flex: 1,
                       child: MainAppButtonWidget(
                         buttonText: 'Register',
-                        onButtonPressed: () {},
+                        onButtonPressed: () {
+                          nextScreenReplace(context, const AuthSignUpPage());
+                        },
                       ),
                     ),
                     const SizedBox(
