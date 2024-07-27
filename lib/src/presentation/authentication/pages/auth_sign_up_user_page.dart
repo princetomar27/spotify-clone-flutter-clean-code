@@ -1,15 +1,37 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:spotifyflutterclone/common/helpers/is_dark_theme_helper.dart';
-import 'package:spotifyflutterclone/common/helpers/navigation_helpers.dart';
-import 'package:spotifyflutterclone/common/widgets/app_bar/main_app_bar_widget.dart';
-import 'package:spotifyflutterclone/common/widgets/main_app_button_widget.dart';
-import 'package:spotifyflutterclone/core/assets/app_vectors.dart';
-import 'package:spotifyflutterclone/src/presentation/authentication/pages/auth_sign_in_user_page.dart';
+import 'package:spotifyflutterclone/injection_container.dart';
+import 'package:spotifyflutterclone/src/data/models/authentication/create_user_request_body_model.dart';
+import 'package:spotifyflutterclone/src/domain/usecases/authentication/auth_sign_up_usecase.dart';
+import 'package:spotifyflutterclone/src/presentation/home/pages/home_page.dart';
 import 'package:svg_flutter/svg.dart';
 
-class AuthSignUpPage extends StatelessWidget {
+import '../../../../common/helpers/is_dark_theme_helper.dart';
+import '../../../../common/helpers/navigation_helpers.dart';
+import '../../../../common/widgets/app_bar/main_app_bar_widget.dart';
+import '../../../../common/widgets/main_app_button_widget.dart';
+import '../../../../core/assets/app_vectors.dart';
+import 'auth_sign_in_user_page.dart';
+
+class AuthSignUpPage extends StatefulWidget {
   const AuthSignUpPage({super.key});
+
+  @override
+  State<AuthSignUpPage> createState() => _AuthSignUpPageState();
+}
+
+class _AuthSignUpPageState extends State<AuthSignUpPage> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _fullNameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _fullNameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +60,7 @@ class AuthSignUpPage extends StatelessWidget {
 
           // Name tf
           TextField(
+            controller: _fullNameController,
             decoration: const InputDecoration(hintText: "Full Name")
                 .applyDefaults(Theme.of(context).inputDecorationTheme),
           ),
@@ -50,6 +73,7 @@ class AuthSignUpPage extends StatelessWidget {
 
           // Name tf
           TextField(
+            controller: _emailController,
             decoration: const InputDecoration(hintText: "Enter Email")
                 .applyDefaults(Theme.of(context).inputDecorationTheme),
           ),
@@ -60,6 +84,7 @@ class AuthSignUpPage extends StatelessWidget {
 
           // Name tf
           TextField(
+            controller: _passwordController,
             decoration: const InputDecoration(
               hintText: "Password",
             ).applyDefaults(Theme.of(context).inputDecorationTheme),
@@ -70,7 +95,23 @@ class AuthSignUpPage extends StatelessWidget {
 
           MainAppButtonWidget(
             buttonText: 'Create Account',
-            onButtonPressed: () {},
+            onButtonPressed: () async {
+              CreateUserRequestBodyModel userBody = CreateUserRequestBodyModel(
+                email: _emailController.text.trim(),
+                fullName: _fullNameController.text.trim(),
+                password: _passwordController.text.trim(),
+              );
+              var signUpResult = await sl<AuthSignUpUsecase>().call(userBody);
+
+              signUpResult.fold(
+                (failure) {
+                  print(failure);
+                },
+                (signUpSuccess) {
+                  nextScreenRemoveUntil(context, HomePage());
+                },
+              );
+            },
           ),
         ]),
       ),

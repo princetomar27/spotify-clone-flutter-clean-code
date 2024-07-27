@@ -5,6 +5,7 @@ import 'package:spotifyflutterclone/common/widgets/app_bar/main_app_bar_widget.d
 import 'package:spotifyflutterclone/common/widgets/main_app_button_widget.dart';
 import 'package:spotifyflutterclone/core/assets/app_images.dart';
 import 'package:spotifyflutterclone/core/assets/app_vectors.dart';
+import 'package:spotifyflutterclone/src/presentation/authentication/pages/auth_sign_in_user_page.dart';
 import 'package:spotifyflutterclone/src/presentation/authentication/pages/auth_sign_up_user_page.dart';
 import 'package:svg_flutter/svg.dart';
 
@@ -90,7 +91,9 @@ class AuthenticationPage extends StatelessWidget {
                     Expanded(
                         flex: 1,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            nextScreenReplace(context, const AuthSignInPage());
+                          },
                           child: Text(
                             'Sign In',
                             style: TextStyle(

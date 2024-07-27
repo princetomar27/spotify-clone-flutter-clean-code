@@ -6,6 +6,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:spotifyflutterclone/core/configs/themes/app_theme.dart';
 import 'package:spotifyflutterclone/firebase_options.dart';
+import 'package:spotifyflutterclone/injection_container.dart';
 import 'package:spotifyflutterclone/src/presentation/choose_mode/cubits/choose_theme_mode_cubit.dart';
 import 'package:spotifyflutterclone/src/presentation/splash/pages/splash_page.dart';
 
@@ -18,6 +19,7 @@ void main() async {
   );
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await initDependencies();
 
   runApp(const MyApp());
 }
